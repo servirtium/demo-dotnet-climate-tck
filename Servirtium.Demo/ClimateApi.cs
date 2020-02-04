@@ -55,5 +55,30 @@ namespace Servirtium.Demo
             return averages.Average();
 
         }
+
+        public async Task<double> getPlanetaryRainfall(int fromCCYY, int toCCYY, string planet)
+        {
+            HttpClient httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
+
+            var requestUri = new Uri(_site, $"/climateweb/rest/v1/planet/annualavg/pr/{fromCCYY}/{toCCYY}/{planet}.xml");
+            var response = await httpClient.GetAsync(requestUri);
+            if (response.IsSuccessStatusCode)
+            {
+                var rawXml = await response.Content.ReadAsStringAsync();
+                var doc = XDocument.Parse(rawXml);
+                var result = doc.Descendants(XNamespace.None + "annualData")
+                    .Descendants(XNamespace.None + "double")
+                    .Select(xe => Double.Parse(xe.Value));
+                if (!result.Any())
+                {
+                    throw new Exception($"date range {fromCCYY}-{toCCYY} not supported");
+                }
+                return result.Average();
+            }
+            else throw new HttpRequestException($"GET Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
+
+
+
+        }
     }
 }

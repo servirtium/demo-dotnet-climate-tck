@@ -14,7 +14,7 @@ namespace Servirtium.Demo
     {
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)
         {
-            var replayer = new MarkdownReplayer();
+            var replayer = new InteractionReplayer();
             replayer.LoadScriptFile($@"..\..\..\test_playbacks\{script}");
             yield return
             (

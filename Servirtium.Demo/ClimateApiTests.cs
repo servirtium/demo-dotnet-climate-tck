@@ -1,6 +1,8 @@
 ﻿using Servirtium.Core;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using Xunit;
 
@@ -86,6 +88,19 @@ namespace Servirtium.Demo
             RunTest(
                "averageRainfallForGreatBritainAndFranceFrom1980to1999CanBeCalculatedFromTwoRequests.md",
                (api) => Assert.Equal(951.3220963726872, api.getAveAnnualRainfall(1980, 1999, "gbr", "fra").Result, 0)
+            );
+        }
+
+        [Fact]
+        public void AverageRainfallForNeptuneServiceNotFound()
+        {
+            RunTest(
+               "averageRainfallForNeptuneFrom1980to1999NotFoundError.md",
+               (api) => {
+                   var exception = Assert.Throws<AggregateException>(() => api.getPlanetaryRainfall(1980, 1999, "neptune").Result);
+                   Assert.IsType<HttpRequestException>(exception.InnerExceptions[0]);
+                   Assert.Matches($@"^GET Request to http://(.+)/climateweb/rest/v1/planet/annualavg/pr/1980/1999/neptune\.xml failed, status {HttpStatusCode.NotFound}", exception.InnerExceptions[0].Message);
+               }
             );
         }
     }

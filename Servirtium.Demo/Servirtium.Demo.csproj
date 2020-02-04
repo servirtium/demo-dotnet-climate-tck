@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <Folder Include="test_recording_output\" />
-    <Folder Include="test_playbacks\" />
   </ItemGroup>
 
 </Project>
