@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Text;
+using System.Net.Http.Headers;
 
 namespace Servirtium.Demo
 {
@@ -39,16 +40,23 @@ namespace Servirtium.Demo
 
         public async Task RegisterNewPlanet(string star, string planet, Dictionary<string, string> details)
         {
-
             var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
             var requestUri = new Uri(_site, $"/{star}/{planet}");
-            var response = await httpClient.PostAsync(requestUri, new StringContent(JsonSerializer.Serialize(details), Encoding.UTF8, "application/json"));
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUri);
+            requestMessage.Content = new StringContent(JsonSerializer.Serialize(details), Encoding.UTF8, "application/json");
+            requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+            requestMessage.Headers.AcceptCharset.Add(new StringWithQualityHeaderValue("utf-8"));
+            var response = await httpClient.SendAsync(requestMessage);
             if (response.IsSuccessStatusCode)
             {
                 await response.Content.ReadAsStringAsync();
 
             }
-            else throw new HttpRequestException($"POST Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
+            else
+            {
+                var responseBody = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"POST Request to {requestUri} failed, status {response.StatusCode}, Content: {responseBody}");
+            }
         }
 
         public async Task UpdatePlanet(string star, string planet, Dictionary<string, string> details)
@@ -56,7 +64,7 @@ namespace Servirtium.Demo
 
             var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
             var requestUri = new Uri(_site, $"/{star}/{planet}");
-            var response = await httpClient.PutAsync(requestUri, new StringContent(JsonSerializer.Serialize(details), Encoding.UTF8, "application/json"));
+            var response = await httpClient.PutAsync(requestUri, new StringContent(JsonSerializer.Serialize(details), Encoding.UTF8, "application/json") );
             if (response.IsSuccessStatusCode)
             {
                 await response.Content.ReadAsStringAsync();

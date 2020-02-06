@@ -24,7 +24,7 @@ namespace Servirtium.Demo
                 }
                 finally
                 {
-                    server.Stop();
+                    server.Stop().Wait();
                 }
             }
         }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using Xunit;
 
 namespace Servirtium.Demo
@@ -23,16 +24,20 @@ namespace Servirtium.Demo
 
         private void RunTest(string script, Action<PlanetApi> verification)
         {
-            foreach ((IServirtiumServer server, PlanetApi api) in GenerateTestServerClientPairs(script))
+            //NOT thread safe :-P
+            lock (_service)
             {
-                try
+                foreach ((IServirtiumServer server, PlanetApi api) in GenerateTestServerClientPairs(script))
                 {
-                    server.Start();
-                    verification(api);
-                }
-                finally
-                {
-                    server.Stop();
+                    try
+                    {
+                        server.Start();
+                        verification(api);
+                    }
+                    finally
+                    {
+                        server.Stop().Wait();
+                    }
                 }
             }
         }
@@ -47,7 +52,39 @@ namespace Servirtium.Demo
                 {
                     var solPlanets = api.GetPlanets("sol").Result;
                     Assert.Equal(8, solPlanets.Count());
-                    Assert.Subset(new HashSet<string> { "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", }, new HashSet<string>(solPlanets));
+                    Assert.Subset(new HashSet<string> { "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune" }, new HashSet<string>(solPlanets));
+                }
+            );
+        }
+
+        [Fact]
+        public virtual void RegisterAPlanetAndCheckItExists()
+        {
+            RunTest
+            (
+                "destroyAPlanetAndCheckItHasGone.md",
+                (api) =>
+                {
+                    api.RegisterNewPlanet("sol", "yuggoth", new Dictionary<string, string> { { "moons", "4" } }).Wait();
+                    var solPlanets = api.GetPlanets("sol").Result;
+                    Assert.Equal(9, solPlanets.Count());
+                    Assert.Subset(new HashSet<string> { "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune", "yuggoth" }, new HashSet<string>(solPlanets));
+                }
+            );
+        }
+
+        [Fact]
+        public virtual void DestroyAPlanetAndCheckItDoesentExist()
+        {
+            RunTest
+            (
+                "registerAPlanetAndCheckItExist.md",
+                (api) =>
+                {
+                    api.DestroyPlanet("sol", "jupiter").Wait();
+                    var solPlanets = api.GetPlanets("sol").Result;
+                    Assert.Equal(7, solPlanets.Count());
+                    Assert.Subset(new HashSet<string> { "mercury", "venus", "earth", "mars", "saturn", "uranus", "neptune" }, new HashSet<string>(solPlanets));
                 }
             );
         }

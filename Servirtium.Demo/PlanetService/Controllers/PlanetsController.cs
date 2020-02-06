@@ -8,28 +8,34 @@ using Microsoft.Extensions.Logging;
 namespace Servirtium.Demo.PlanetService.Controllers
 {
     [ApiController]
-    [Route("/planets")]
+    [Route("/")]
     public class PlanetsController : ControllerBase
     {
-        private Dictionary<string, Dictionary<string, Dictionary<string, string>>> _planetRegistry =
-            new Dictionary<string, Dictionary<string, Dictionary<string, string>>>
+
+
+        private static Dictionary<string, Dictionary<string, Dictionary<string, string>>> _planetRegistry;
+
+        internal static void Reset()
+        {
+            _planetRegistry = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>
             {
                 {
                     "sol", new Dictionary<string, Dictionary<string, string>>
                     {
-                        {"Mercury", new Dictionary<string, string>{{"moons", "0"} } },
-                        {"Venus", new Dictionary<string, string>{{"moons", "0"} } },
-                        {"Earth", new Dictionary<string, string>{{"moons", "1"} } },
-                        {"Mars", new Dictionary<string, string>{{"moons", "2"} } },
-                        {"Jupiter", new Dictionary<string, string>{{"moons", "67"} } },
-                        {"Saturn", new Dictionary<string, string>{{"moons", "62"} } },
-                        {"Uranus", new Dictionary<string, string>{{"moons", "27"} } },
-                        {"Neptune", new Dictionary<string, string>{{"moons", "14"} } }
+                        {"mercury", new Dictionary<string, string>{{"moons", "0"} } },
+                        {"venus", new Dictionary<string, string>{{"moons", "0"} } },
+                        {"earth", new Dictionary<string, string>{{"moons", "1"} } },
+                        {"mars", new Dictionary<string, string>{{"moons", "2"} } },
+                        {"jupiter", new Dictionary<string, string>{{"moons", "67"} } },
+                        {"saturn", new Dictionary<string, string>{{"moons", "62"} } },
+                        {"uranus", new Dictionary<string, string>{{"moons", "27"} } },
+                        {"neptune", new Dictionary<string, string>{{"moons", "14"} } }
                     }
                 }
             };
+        }
 
-        [HttpGet("/{star}")]
+        [HttpGet("{star}")]
         [Produces("application/json")]
         public ActionResult<IEnumerable<string>> Get(string star) {
             try
@@ -38,14 +44,14 @@ namespace Servirtium.Demo.PlanetService.Controllers
             }
             catch (KeyNotFoundException ex)
             {
-                return NotFound(ex);
+                return NotFound(ex.Message);
             }
 
         }
 
         [HttpPost("{starName}/{planetName}")]
         [Produces("text/plain")]
-        public ActionResult<string> Post(string starName, string planetName, [FromBody()] Dictionary<string, string> planetData)
+        public ActionResult<string> Post(string starName, string planetName, [FromBody] Dictionary<string, string> planetData)
         {
             if (!_planetRegistry.TryGetValue(starName, out var planets))
             {
@@ -59,7 +65,7 @@ namespace Servirtium.Demo.PlanetService.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -83,7 +89,7 @@ New data:
             }
             catch (KeyNotFoundException ex)
             {
-                return NotFound(ex);
+                return NotFound(ex.Message);
             }
         }
             
@@ -99,7 +105,7 @@ New data:
             }
             catch (KeyNotFoundException ex)
             {
-                return NotFound(ex);
+                return NotFound(ex.Message);
             }
         }
             
