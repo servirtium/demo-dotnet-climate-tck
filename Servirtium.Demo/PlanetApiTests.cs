@@ -4,6 +4,7 @@ using Servirtium.Demo.PlanetService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -62,7 +63,7 @@ namespace Servirtium.Demo
         {
             RunTest
             (
-                "destroyAPlanetAndCheckItHasGone.md",
+                "registerAPlanetAndCheckItExist.md",
                 (api) =>
                 {
                     api.RegisterNewPlanet("sol", "yuggoth", new Dictionary<string, string> { { "moons", "4" } }).Wait();
@@ -78,7 +79,7 @@ namespace Servirtium.Demo
         {
             RunTest
             (
-                "registerAPlanetAndCheckItExist.md",
+                "destroyAPlanetAndCheckItHasGone.md",
                 (api) =>
                 {
                     api.DestroyPlanet("sol", "jupiter").Wait();
@@ -88,6 +89,56 @@ namespace Servirtium.Demo
                 }
             );
         }
+
+        [Fact]
+        public virtual void UpdateAPlanetAndCheckItHasCorrectData()
+        {
+            RunTest
+            (
+                "updateAPlanetAndCheckIt.md",
+                (api) =>
+                {
+                    api.UpdatePlanet("sol", "jupiter", new Dictionary<string, string> { { "moons", "68" }, { "colour", "brown" } }).Wait();
+                    var jupiterData = api.GetPlanet("sol", "jupiter").Result;
+                    Assert.Equal(2, jupiterData.Count());
+                    Assert.Equal("68", jupiterData["moons"]);
+                    Assert.Equal("brown", jupiterData["colour"]);
+                 }
+            );
+        }
+
+        [Fact]
+        public virtual void DestroyAPlanetThatDoesentExistReturnsNotFound()
+        {
+            RunTest
+            (
+                "destroyAPlanetThatDoesentExistReturnsNotFound.md",
+                (api) =>
+                {
+                    var exception = Assert.ThrowsAny<AggregateException>(()=>api.DestroyPlanet("kepler-442", "kepler-442b").Wait());
+                    Assert.IsType<HttpRequestException>(exception.InnerExceptions[0]); 
+                    Assert.Matches($@"^DELETE Request to http://(.+)/kepler-442/kepler-442b failed, status {HttpStatusCode.NotFound}", exception.InnerExceptions[0].Message);
+
+                }
+            );
+        }
+
+        [Fact]
+        public virtual void RegisterAPlanetThatAlreadyExistsIsBadRequest()
+        {
+            RunTest
+            (
+                "registerAPlanetThatAlreadyExistsIsBadRequest.md",
+                (api) =>
+                {
+                    var exception = Assert.Throws<AggregateException>(() => api.RegisterNewPlanet("sol", "neptune", new Dictionary<string, string> { { "moons", "4" } }).Wait());
+                    Assert.IsType<HttpRequestException>(exception.InnerExceptions[0]);
+                    Assert.Matches($@"^POST Request to http://(.+)/sol/neptune failed, status {HttpStatusCode.BadRequest}", exception.InnerExceptions[0].Message);
+
+                }
+            );
+        }
+
 
         public void Dispose()
         {

@@ -38,6 +38,21 @@ namespace Servirtium.Demo
             else throw new HttpRequestException($"GET Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
         }
 
+        public async Task<IDictionary<string, string>> GetPlanet(string star, string planet)
+        {
+
+            var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
+            var requestUri = new Uri(_site, $"/{star}/{planet}");
+            var response = await httpClient.GetAsync(requestUri);
+            if (response.IsSuccessStatusCode)
+            {
+                var bodyStream = await response.Content.ReadAsStreamAsync();
+                return await JsonSerializer.DeserializeAsync<Dictionary<string, string>>(bodyStream);
+
+            }
+            else throw new HttpRequestException($"GET Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
+        }
+
         public async Task RegisterNewPlanet(string star, string planet, Dictionary<string, string> details)
         {
             var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
@@ -70,7 +85,7 @@ namespace Servirtium.Demo
                 await response.Content.ReadAsStringAsync();
 
             }
-            else throw new HttpRequestException($"POST Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
+            else throw new HttpRequestException($"PUT Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
         }
 
         public async Task DestroyPlanet(string star, string planet)
@@ -84,7 +99,7 @@ namespace Servirtium.Demo
                 await response.Content.ReadAsStringAsync();
 
             }
-            else throw new HttpRequestException($"POST Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
+            else throw new HttpRequestException($"DELETE Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
         }
     }
 }
