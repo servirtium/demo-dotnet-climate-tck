@@ -1,6 +1,5 @@
 ﻿using Servirtium.AspNetCore;
 using Servirtium.Core;
-using Servirtium.Core.Replay;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +23,7 @@ namespace Servirtium.Demo
                     new SimpleInteractionTransforms(
                         ClimateApi.DEFAULT_SITE, 
                         new Regex[0], 
-                        new[] { new Regex("Date:") }
+                        new[] { new Regex("Date:"), new Regex("Cookie:") }
 
                     )),
                 new ClimateApi(new Uri("http://localhost:1234"))
