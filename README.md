@@ -9,12 +9,12 @@ JSON payloads, and the `Servirtium.AspNetCore` module can record and payback eit
 
 ## Notable source files:
 
-Climate API demo class: [Servirtium.Demo/ClimateApi.cs](https://github.com/servirtium/servirtium-demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApi.cs). 
+Climate API demo class: [Servirtium.Demo/ClimateApi.cs](https://github.com/servirtium/sdemo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApi.cs). 
 
 Servirtium in use:
 
-* Direct tests against the climate service (no Servirtium): [Servirtium.Demo/ClimateApiTests.cs](https://github.com/servirtium/servirtium-demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApiTests.cs) 
-* Playback of a Servirtium recording: [Servirtium.Demo/ClimateApiPlaybackTests.cs](https://github.com/servirtium/servirtium-demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApiPlaybackTests.cs)
-* Making a Servirtium recording: [Servirtium.Demo/ClimateApiRecordingTests.cs](https://github.com/servirtium/servirtium-demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApiRecordingTests.cs)
+* Direct tests against the climate service (no Servirtium): [Servirtium.Demo/ClimateApiTests.cs](https://github.com/servirtium/demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApiTests.cs) 
+* Playback of a Servirtium recording: [Servirtium.Demo/ClimateApiPlaybackTests.cs](https://github.com/servirtium/demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApiPlaybackTests.cs)
+* Making a Servirtium recording: [Servirtium.Demo/ClimateApiRecordingTests.cs](https://github.com/servirtium/demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApiRecordingTests.cs)
 
 For your own use of Servirtium, you'd do something like the record and playback tests.
