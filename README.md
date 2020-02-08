@@ -13,8 +13,8 @@ Climate API demo class: [Servirtium.Demo/ClimateApi.cs](https://github.com/servi
 
 Servirtium in use:
 
-* Direct tests against the climate service (no Servirtium): [Servirtium.Demo/ClimateApiTests.cs](https://github.com/servirtium/demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApiTests.cs) 
-* Playback of a Servirtium recording: [Servirtium.Demo/ClimateApiPlaybackTests.cs](https://github.com/servirtium/demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApiPlaybackTests.cs)
-* Making a Servirtium recording: [Servirtium.Demo/ClimateApiRecordingTests.cs](https://github.com/servirtium/demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApiRecordingTests.cs)
+* Playback of a Servirtium recording: [Servirtium.Demo/ClimateApiPlaybackTests.cs](https://github.com/servirtium/demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApiPlaybackTests.cs) (reuses ClimateApiTests.cs - see below)
+* Making a Servirtium recording: [Servirtium.Demo/ClimateApiRecordingTests.cs](https://github.com/servirtium/demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApiRecordingTests.cs) (reuses ClimateApiTests.cs - see below)
+* For contrast, direct tests against the climate service (no Servirtium): [Servirtium.Demo/ClimateApiTests.cs](https://github.com/servirtium/demo-dotnet-climate-tck/blob/master/Servirtium.Demo/ClimateApiTests.cs) 
 
 For your own use of Servirtium, you'd do something like the record and playback tests.
