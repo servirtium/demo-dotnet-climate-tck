@@ -3,6 +3,8 @@ using Servirtium.Core;
 using Servirtium.Demo.PlanetService;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,6 +19,11 @@ namespace Servirtium.Demo
         private readonly IHost _service = PlanetServiceFactory.Create(1001);
         public PlanetApiTests()
         {
+            if (Directory.Exists("planet_photos"))
+            {
+
+                Directory.Delete("planet_photos", true);
+            }
             _service.Start();
         }
 
@@ -135,6 +142,44 @@ namespace Servirtium.Demo
                     Assert.IsType<HttpRequestException>(exception.InnerExceptions[0]);
                     Assert.Matches($@"^POST Request to http://(.+)/sol/neptune failed, status {HttpStatusCode.BadRequest}", exception.InnerExceptions[0].Message);
 
+                }
+            );
+        }
+
+        [Fact]
+        public virtual void SendAPhotoOfAPlanetReturnsCorrectSize()
+        {
+            RunTest
+            (
+                "sendAPhotoOfAPlanetReturnsCorrectSize.md",
+                (api) =>
+                {
+                    using (var fs = File.OpenRead($"PlanetResources{Path.DirectorySeparatorChar}Neptune_cutout.png"))
+                    {
+                        var image = new Bitmap(fs);
+                        var confirmationMessage = api.SendPhoto("sol", "neptune", "north_pole.png", image).Result;
+                        Assert.Contains($"{image.Width}x{image.Height}",confirmationMessage);
+                    }
+                }
+            );
+        }
+
+        [Fact]
+        public virtual void GetAPhotoOfAPlanetReturnsValidImage()
+        {
+            RunTest
+            (
+                "getAPhotoOfAPlanetReturnsCorrectImage.md",
+                (api) =>
+                {
+                    using (var fs = File.OpenRead($"PlanetResources{Path.DirectorySeparatorChar}Neptune_cutout.png"))
+                    {
+                        var image = new Bitmap(fs);
+                        api.SendPhoto("sol", "neptune", "equator.png", image).Wait();
+                        var downloadedImage = api.GetPhoto("sol", "neptune", "equator.png").Result;
+                        Assert.Equal(downloadedImage.Width, image.Width);
+                        Assert.Equal(downloadedImage.Height, image.Height);
+                    }
                 }
             );
         }

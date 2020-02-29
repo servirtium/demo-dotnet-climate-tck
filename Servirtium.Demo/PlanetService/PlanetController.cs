@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -101,6 +104,46 @@ New data:
                 return NotFound(ex.Message);
             }
         }
-            
+
+        [HttpGet("{star}/{planet}/photos/{photoFile}")]
+        [Produces("image/png")]
+        public ActionResult<Stream> Get(string star, string planet, string photoFile)
+        {
+            if (System.IO.File.Exists($"planet_photos/{star}/{planet}/{photoFile}"))
+            {
+                Directory.CreateDirectory($"planet_photos/{star}/");
+                return Ok(System.IO.File.OpenRead($"planet_photos/{star}/{planet}/{photoFile}"));
+            }
+            else
+            {
+                return NotFound($"Cannot find that photo of {planet}. :-(");
+            }
+
+        }
+
+        [HttpPost("{star}/{planet}/photos/{photoFile}")]
+        [Produces("text/plain")]
+        public async Task<ActionResult<string>> Post(string star, string planet, string photoFile)
+        {
+            try
+            {
+                var ms = new MemoryStream();
+                await Request.Body.CopyToAsync(ms);
+                Bitmap bitmap = new Bitmap(ms);
+                Directory.CreateDirectory($"planet_photos/{star}/{planet}");
+                bitmap.Save($"planet_photos/{star}/{planet}/{photoFile}", ImageFormat.Png);
+                return Ok($"Thanks for that lovely photo of {planet}! It's dimensions are {bitmap.Width}x{bitmap.Height}.");
+            }
+            catch(ArgumentNullException nex)
+            {
+                return BadRequest(nex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
     }
 }

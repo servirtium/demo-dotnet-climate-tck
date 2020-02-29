@@ -6,6 +6,10 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Text;
 using System.Net.Http.Headers;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Threading;
 
 namespace Servirtium.Demo
 {
@@ -100,6 +104,41 @@ namespace Servirtium.Demo
 
             }
             else throw new HttpRequestException($"DELETE Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
+        }
+
+        public async Task<Bitmap> GetPhoto(string star, string planet, string photoFile)
+        {
+            var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
+            var requestUri = new Uri(_site, $"/{star}/{planet}/photos/{photoFile}");
+            var response = await httpClient.GetAsync(requestUri);
+            if (response.IsSuccessStatusCode)
+            {
+                return new Bitmap(await response.Content.ReadAsStreamAsync());
+
+            }
+            else throw new HttpRequestException($"GET Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
+        }
+
+        public async Task<string> SendPhoto(string star, string planet, string photoFile, Bitmap photo)
+        {
+            var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
+            var requestUri = new Uri(_site, $"/{star}/{planet}/photos/{photoFile}");
+            using (var ms = new MemoryStream())
+            {
+                photo.Save(ms, ImageFormat.Png);
+                ms.Seek(0, SeekOrigin.Begin);
+                var content = new StreamContent(ms);
+
+                content.Headers.ContentType = MediaTypeHeaderValue.Parse("image/png");
+                var response = await httpClient.PostAsync(requestUri, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsStringAsync();
+
+                }            
+                else throw new HttpRequestException($"POST Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
+
+            }
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Servirtium.Demo
                     replayer,
                     new SimpleInteractionTransforms(
                         ClimateApi.DEFAULT_SITE,
-                        new Regex[0],
+                        new[] { new Regex("Cookie:") },
                         new[] { new Regex("Date:"), new Regex("Cookie:") }
                     )),
                 new ClimateApi(new Uri("http://localhost:1234"))
