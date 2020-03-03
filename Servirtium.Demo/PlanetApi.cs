@@ -19,20 +19,23 @@ namespace Servirtium.Demo
         internal static readonly Uri DEFAULT_SITE = new Uri("http://localhost:1001");
 
         private readonly Uri _site;
-
+        private readonly HttpClient _client;
         public PlanetApi() : this(DEFAULT_SITE) { }
+        public PlanetApi(Uri site) : this(new HttpClient { Timeout = TimeSpan.FromSeconds(30) }, site) { }
 
-        public PlanetApi(Uri site)
+        public PlanetApi(HttpClient client) : this(client, DEFAULT_SITE) { }
+
+        public PlanetApi(HttpClient client, Uri site)
         {
+            _client = client;
             _site = site;
         }
 
+
         public async Task<IEnumerable<string>> GetPlanets(string star)
         {
-
-            var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
             var requestUri = new Uri(_site, $"/{star}");
-            var response = await httpClient.GetAsync(requestUri);
+            var response = await _client.GetAsync(requestUri);
             if (response.IsSuccessStatusCode)
             {
                 var bodyStream = await response.Content.ReadAsStreamAsync();
@@ -44,10 +47,8 @@ namespace Servirtium.Demo
 
         public async Task<IDictionary<string, string>> GetPlanet(string star, string planet)
         {
-
-            var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
             var requestUri = new Uri(_site, $"/{star}/{planet}");
-            var response = await httpClient.GetAsync(requestUri);
+            var response = await _client.GetAsync(requestUri);
             if (response.IsSuccessStatusCode)
             {
                 var bodyStream = await response.Content.ReadAsStreamAsync();
@@ -59,13 +60,12 @@ namespace Servirtium.Demo
 
         public async Task RegisterNewPlanet(string star, string planet, Dictionary<string, string> details)
         {
-            var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
             var requestUri = new Uri(_site, $"/{star}/{planet}");
             var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUri);
             requestMessage.Content = new StringContent(JsonSerializer.Serialize(details), Encoding.UTF8, "application/json");
             requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
             requestMessage.Headers.AcceptCharset.Add(new StringWithQualityHeaderValue("utf-8"));
-            var response = await httpClient.SendAsync(requestMessage);
+            var response = await _client.SendAsync(requestMessage);
             if (response.IsSuccessStatusCode)
             {
                 await response.Content.ReadAsStringAsync();
@@ -80,10 +80,8 @@ namespace Servirtium.Demo
 
         public async Task UpdatePlanet(string star, string planet, Dictionary<string, string> details)
         {
-
-            var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
             var requestUri = new Uri(_site, $"/{star}/{planet}");
-            var response = await httpClient.PutAsync(requestUri, new StringContent(JsonSerializer.Serialize(details), Encoding.UTF8, "application/json") );
+            var response = await _client.PutAsync(requestUri, new StringContent(JsonSerializer.Serialize(details), Encoding.UTF8, "application/json") );
             if (response.IsSuccessStatusCode)
             {
                 await response.Content.ReadAsStringAsync();
@@ -94,10 +92,8 @@ namespace Servirtium.Demo
 
         public async Task DestroyPlanet(string star, string planet)
         {
-
-            var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
             var requestUri = new Uri(_site, $"/{star}/{planet}");
-            var response = await httpClient.DeleteAsync(requestUri);
+            var response = await _client.DeleteAsync(requestUri);
             if (response.IsSuccessStatusCode)
             {
                 await response.Content.ReadAsStringAsync();
@@ -108,9 +104,8 @@ namespace Servirtium.Demo
 
         public async Task<Bitmap> GetPhoto(string star, string planet, string photoFile)
         {
-            var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
             var requestUri = new Uri(_site, $"/{star}/{planet}/photos/{photoFile}");
-            var response = await httpClient.GetAsync(requestUri);
+            var response = await _client.GetAsync(requestUri);
             if (response.IsSuccessStatusCode)
             {
                 return new Bitmap(await response.Content.ReadAsStreamAsync());
@@ -121,7 +116,6 @@ namespace Servirtium.Demo
 
         public async Task<string> SendPhoto(string star, string planet, string photoFile, Bitmap photo)
         {
-            var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
             var requestUri = new Uri(_site, $"/{star}/{planet}/photos/{photoFile}");
             using (var ms = new MemoryStream())
             {
@@ -130,7 +124,7 @@ namespace Servirtium.Demo
                 var content = new StreamContent(ms);
 
                 content.Headers.ContentType = MediaTypeHeaderValue.Parse("image/png");
-                var response = await httpClient.PostAsync(requestUri, content);
+                var response = await _client.PostAsync(requestUri, content);
                 if (response.IsSuccessStatusCode)
                 {
                     return await response.Content.ReadAsStringAsync();

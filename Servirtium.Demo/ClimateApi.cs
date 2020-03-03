@@ -14,19 +14,24 @@ namespace Servirtium.Demo
         internal static readonly Uri DEFAULT_SITE = new Uri("http://climatedataapi.worldbank.org");
 
         private readonly Uri _site;
+        private readonly HttpClient _client;
         public ClimateApi(): this(DEFAULT_SITE) { }
-        public ClimateApi(Uri site)
+        public ClimateApi(Uri site) : this (new HttpClient { Timeout = TimeSpan.FromSeconds(30) }, site) {}
+
+        public ClimateApi(HttpClient client) : this(client, DEFAULT_SITE) { }
+
+        public ClimateApi(HttpClient client, Uri site)
         {
+            _client = client;
             _site = site;
         }
 
-        public async Task<double> getAveAnnualRainfall(int fromCCYY, int toCCYY, params string[] countryIsos)
+        public async Task<double> GetAveAnnualRainfall(int fromCCYY, int toCCYY, params string[] countryIsos)
         {
-            HttpClient httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
             IEnumerable<Task<double>> avgTempPerCountry = countryIsos.Select(async countryIso =>
             {
                 var requestUri = new Uri(_site, $"/climateweb/rest/v1/country/annualavg/pr/{fromCCYY}/{toCCYY}/{countryIso}.xml");
-                var response = await httpClient.GetAsync(requestUri);
+                var response = await _client.GetAsync(requestUri);
                 if (response.IsSuccessStatusCode)
                 {
                     var rawXml = await response.Content.ReadAsStringAsync();
@@ -56,12 +61,10 @@ namespace Servirtium.Demo
 
         }
 
-        public async Task<double> getPlanetaryRainfall(int fromCCYY, int toCCYY, string planet)
+        public async Task<double> GetPlanetaryRainfall(int fromCCYY, int toCCYY, string planet)
         {
-            HttpClient httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
-
             var requestUri = new Uri(_site, $"/climateweb/rest/v1/planet/annualavg/pr/{fromCCYY}/{toCCYY}/{planet}.xml");
-            var response = await httpClient.GetAsync(requestUri);
+            var response = await _client.GetAsync(requestUri);
             if (response.IsSuccessStatusCode)
             {
                 var rawXml = await response.Content.ReadAsStringAsync();
@@ -76,8 +79,6 @@ namespace Servirtium.Demo
                 return result.Average();
             }
             else throw new HttpRequestException($"GET Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
-
-
 
         }
     }

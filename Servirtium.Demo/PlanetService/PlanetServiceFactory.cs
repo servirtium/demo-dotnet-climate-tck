@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Servirtium.Demo.PlanetService
 {
@@ -14,6 +15,12 @@ namespace Servirtium.Demo.PlanetService
             {
                 //If a port is specified, override urls with specified port, listening on all available hosts, for HTTP.
                 webBuilder.UseUrls($"http://*:{port}");
+                webBuilder.ConfigureLogging((f) =>
+                {
+                    f.SetMinimumLevel(LogLevel.Trace);
+                    f.AddDebug();
+                    f.AddConsole();
+                });
                 webBuilder.ConfigureServices((ctx, services)=> {
                     services.AddControllers();
                     services.AddMvc();

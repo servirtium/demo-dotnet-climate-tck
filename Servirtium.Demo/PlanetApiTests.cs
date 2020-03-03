@@ -73,6 +73,7 @@ namespace Servirtium.Demo
                 "registerAPlanetAndCheckItExist.md",
                 (api) =>
                 {
+                    //Thread.Sleep(TimeSpan.FromDays(1));
                     api.RegisterNewPlanet("sol", "yuggoth", new Dictionary<string, string> { { "moons", "4" } }).Wait();
                     var solPlanets = api.GetPlanets("sol").Result;
                     Assert.Equal(9, solPlanets.Count());
@@ -185,7 +186,7 @@ namespace Servirtium.Demo
         }
 
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             _service.StopAsync().Wait();
         }

@@ -34,7 +34,7 @@ namespace Servirtium.Demo
         {
             RunTest(
                 "averageRainfallForGreatBritainFrom1980to1999Exists.md", 
-                (api) => Assert.Equal(988.8454972331015, api.getAveAnnualRainfall(1980, 1999, "gbr").Result, 0)
+                (api) => Assert.Equal(988.8454972331015, api.GetAveAnnualRainfall(1980, 1999, "gbr").Result, 0)
             );
         }
 
@@ -43,7 +43,7 @@ namespace Servirtium.Demo
         {
             RunTest(
                "averageRainfallForFranceFrom1980to1999Exists.md",
-               (api) => Assert.Equal(913.7986955122727, api.getAveAnnualRainfall(1980, 1999, "fra").Result, 0)
+               (api) => Assert.Equal(913.7986955122727, api.GetAveAnnualRainfall(1980, 1999, "fra").Result, 0)
             );
         }
 
@@ -52,7 +52,7 @@ namespace Servirtium.Demo
         {
             RunTest(
                "averageRainfallForEgyptFrom1980to1999Exists.md",
-               (api) => Assert.Equal(54.58587712129825, api.getAveAnnualRainfall(1980, 1999, "egy").Result, 0)
+               (api) => Assert.Equal(54.58587712129825, api.GetAveAnnualRainfall(1980, 1999, "egy").Result, 0)
             );
         }
 
@@ -63,7 +63,7 @@ namespace Servirtium.Demo
                "averageRainfallForGreatBritainFrom1985to1995DoesNotExist.md",
                (api) => 
                {
-                   var e = Assert.Throws<AggregateException>(() => api.getAveAnnualRainfall(1985, 1995, "gbr").Wait());
+                   var e = Assert.Throws<AggregateException>(() => api.GetAveAnnualRainfall(1985, 1995, "gbr").Wait());
                    Assert.Equal("date range 1985-1995 not supported", e.InnerExceptions[0].Message);
                }
             );
@@ -76,7 +76,7 @@ namespace Servirtium.Demo
                "averageRainfallForMiddleEarthFrom1980to1999DoesNotExist.md",
                (api) =>
                {
-                   var e = Assert.Throws<AggregateException>(() => api.getAveAnnualRainfall(1980, 1999, "mde").Wait());
+                   var e = Assert.Throws<AggregateException>(() => api.GetAveAnnualRainfall(1980, 1999, "mde").Wait());
                    Assert.Equal("mde not recognized by climateweb", e.InnerExceptions[0].Message);
                }
             );
@@ -87,7 +87,7 @@ namespace Servirtium.Demo
         {
             RunTest(
                "averageRainfallForGreatBritainAndFranceFrom1980to1999CanBeCalculatedFromTwoRequests.md",
-               (api) => Assert.Equal(951.3220963726872, api.getAveAnnualRainfall(1980, 1999, "gbr", "fra").Result, 0)
+               (api) => Assert.Equal(951.3220963726872, api.GetAveAnnualRainfall(1980, 1999, "gbr", "fra").Result, 0)
             );
         }
 
@@ -97,7 +97,7 @@ namespace Servirtium.Demo
             RunTest(
                "averageRainfallForNeptuneFrom1980to1999NotFoundError.md",
                (api) => {
-                   var exception = Assert.Throws<AggregateException>(() => api.getPlanetaryRainfall(1980, 1999, "neptune").Result);
+                   var exception = Assert.Throws<AggregateException>(() => api.GetPlanetaryRainfall(1980, 1999, "neptune").Result);
                    Assert.IsType<HttpRequestException>(exception.InnerExceptions[0]);
                    Assert.Matches($@"^GET Request to http://(.+)/climateweb/rest/v1/planet/annualavg/pr/1980/1999/neptune\.xml failed, status {HttpStatusCode.NotFound}", exception.InnerExceptions[0].Message);
                }
