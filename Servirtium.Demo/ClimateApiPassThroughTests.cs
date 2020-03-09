@@ -1,8 +1,8 @@
 ﻿using Servirtium.AspNetCore;
 using Servirtium.Core;
+using Servirtium.Core.Interactions;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Servirtium.Demo
 {
