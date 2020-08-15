@@ -193,6 +193,7 @@ namespace Servirtium.Demo
         public virtual void Dispose()
         {
             _service.StopAsync().Wait();
+            _service.Dispose();
         }
     }
 }
