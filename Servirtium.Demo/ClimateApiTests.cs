@@ -5,12 +5,17 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace Servirtium.Demo
 {
     public abstract class ClimateApiTests
     {
+        
+        protected static ILoggerFactory loggerFactory = LoggerFactory.Create((builder) => builder
+            .AddConsole()
+            .AddDebug());
         
         internal abstract IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script);
 
@@ -26,6 +31,7 @@ namespace Servirtium.Demo
                 finally
                 {
                     server.Stop().Wait();
+                    
                 }
             }
         }

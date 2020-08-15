@@ -20,9 +20,6 @@ namespace Servirtium.Demo
         {
             
             var targetScriptPath = Path.Combine(RECORDING_OUTPUT_DIRECTORY, script);
-            var loggerFactory = LoggerFactory.Create((builder) => builder
-                .AddConsole()
-                .AddDebug());
             var recorder = new InteractionRecorder(
                 PlanetApi.DEFAULT_SITE, targetScriptPath,
                 new FindAndReplaceScriptWriter(new[] {

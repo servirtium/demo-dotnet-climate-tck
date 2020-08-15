@@ -10,12 +10,16 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace Servirtium.Demo
 {
     public abstract class PlanetApiTests : IDisposable
     {
+        protected static ILoggerFactory loggerFactory = LoggerFactory.Create((builder) => builder
+            .AddConsole()
+            .AddDebug());
         private readonly IHost _service = PlanetServiceFactory.Create(1001);
         public PlanetApiTests()
         {

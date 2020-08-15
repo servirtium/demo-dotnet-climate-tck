@@ -26,9 +26,6 @@ namespace Servirtium.Demo
         internal override IEnumerable<(IServirtiumServer, PlanetApi)> GenerateTestServerClientPairs(string script)
         {
             var targetScriptPath = Path.Combine(PROXY_RECORDING_OUTPUT_DIRECTORY, script);
-            var loggerFactory = LoggerFactory.Create((builder) => builder
-                .AddConsole()
-                .AddDebug());
             var recorder = new InteractionRecorder(targetScriptPath,
                 new FindAndReplaceScriptWriter(new[] {
                     new FindAndReplaceScriptWriter.RegexReplacement(new Regex("User-Agent: .*"), "User-Agent: Servirtium-Testing")

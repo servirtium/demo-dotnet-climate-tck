@@ -19,9 +19,6 @@ namespace Servirtium.Demo
     {
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)
         {
-            var loggerFactory = LoggerFactory.Create((builder) => builder
-                .AddConsole()
-                .AddDebug());
             var recorder = new InteractionRecorder(
                 ClimateApi.DEFAULT_SITE, Path.Combine(RECORDING_OUTPUT_DIRECTORY, script),
                 new FindAndReplaceScriptWriter(new[] {

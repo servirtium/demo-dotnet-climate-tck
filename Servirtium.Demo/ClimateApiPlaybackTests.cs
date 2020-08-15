@@ -5,9 +5,9 @@ using Servirtium.Core.Http;
 using Servirtium.Core.Interactions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Text.RegularExpressions;
+using static Servirtium.Demo.TestDirectories;
 
 namespace Servirtium.Demo
 {
@@ -16,11 +16,8 @@ namespace Servirtium.Demo
     {
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)
         {
-            var loggerFactory = LoggerFactory.Create((builder) => builder
-                .AddConsole()
-                .AddDebug());
             var replayer = new InteractionReplayer(null, null, null, null, loggerFactory);
-            replayer.LoadScriptFile($@"..\..\..\test_playbacks\{script}".Replace("\\", ""+System.IO.Path.DirectorySeparatorChar));
+            replayer.LoadScriptFile(Path.Combine(PREGENERATED_PLAYBACKS_DIRECTORY,script));
             yield return
             (
                 AspNetCoreServirtiumServer.WithTransforms(
