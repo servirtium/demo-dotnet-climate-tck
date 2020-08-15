@@ -21,7 +21,7 @@ namespace Servirtium.Demo
                 .AddConsole()
                 .AddDebug());
             var recorder = new InteractionRecorder(
-                PlanetApi.DEFAULT_SITE, $@"..\..\..\test_recording_output\{script}",
+                PlanetApi.DEFAULT_SITE, $@"..\..\..\test_recording_output\{script}".Replace("\\", ""+System.IO.Path.DirectorySeparatorChar),
                 new FindAndReplaceScriptWriter(new[] {
                     new RegexReplacement(new Regex("User-Agent: .*"), "User-Agent: Servirtium-Testing")
                 }, new MarkdownScriptWriter(null, loggerFactory), loggerFactory), loggerFactory);
@@ -42,7 +42,7 @@ namespace Servirtium.Demo
                 new PlanetApi(new Uri("http://localhost:1234"))
             );
             var replayer = new InteractionReplayer(null, null, null, null, loggerFactory);
-            replayer.LoadScriptFile($@"..\..\..\test_recording_output\{script}");
+            replayer.LoadScriptFile($@"..\..\..\test_recording_output\{script}".Replace("\\", ""+System.IO.Path.DirectorySeparatorChar));
             yield return
             (
                 AspNetCoreServirtiumServer.WithTransforms(

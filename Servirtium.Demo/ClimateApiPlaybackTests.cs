@@ -20,7 +20,7 @@ namespace Servirtium.Demo
                 .AddConsole()
                 .AddDebug());
             var replayer = new InteractionReplayer(null, null, null, null, loggerFactory);
-            replayer.LoadScriptFile($@"..\..\..\test_playbacks\{script}");
+            replayer.LoadScriptFile($@"..\..\..\test_playbacks\{script}".Replace("\\", ""+System.IO.Path.DirectorySeparatorChar));
             yield return
             (
                 AspNetCoreServirtiumServer.WithTransforms(
