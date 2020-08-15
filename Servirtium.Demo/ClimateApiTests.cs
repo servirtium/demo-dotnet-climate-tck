@@ -1,6 +1,7 @@
 ﻿using Servirtium.Core;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -10,8 +11,8 @@ namespace Servirtium.Demo
 {
     public abstract class ClimateApiTests
     {
+        
         internal abstract IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script);
-
 
         private void RunTest(string script, Action<ClimateApi> verification)
         {

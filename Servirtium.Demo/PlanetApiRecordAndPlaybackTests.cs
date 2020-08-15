@@ -5,10 +5,11 @@ using Servirtium.Core.Http;
 using Servirtium.Core.Interactions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using static Servirtium.Core.Interactions.FindAndReplaceScriptWriter;
+using static Servirtium.Demo.TestDirectories;
 
 namespace Servirtium.Demo
 {
@@ -17,11 +18,13 @@ namespace Servirtium.Demo
     {
         internal override IEnumerable<(IServirtiumServer, PlanetApi)> GenerateTestServerClientPairs(string script)
         {
+            
+            var targetScriptPath = Path.Combine(RECORDING_OUTPUT_DIRECTORY, script);
             var loggerFactory = LoggerFactory.Create((builder) => builder
                 .AddConsole()
                 .AddDebug());
             var recorder = new InteractionRecorder(
-                PlanetApi.DEFAULT_SITE, $@"..\..\..\test_recording_output\{script}".Replace("\\", ""+System.IO.Path.DirectorySeparatorChar),
+                PlanetApi.DEFAULT_SITE, targetScriptPath,
                 new FindAndReplaceScriptWriter(new[] {
                     new RegexReplacement(new Regex("User-Agent: .*"), "User-Agent: Servirtium-Testing")
                 }, new MarkdownScriptWriter(null, loggerFactory), loggerFactory), loggerFactory);
@@ -42,7 +45,7 @@ namespace Servirtium.Demo
                 new PlanetApi(new Uri("http://localhost:1234"))
             );
             var replayer = new InteractionReplayer(null, null, null, null, loggerFactory);
-            replayer.LoadScriptFile($@"..\..\..\test_recording_output\{script}".Replace("\\", ""+System.IO.Path.DirectorySeparatorChar));
+            replayer.LoadScriptFile(targetScriptPath);
             yield return
             (
                 AspNetCoreServirtiumServer.WithTransforms(

@@ -5,10 +5,12 @@ using Servirtium.Core.Http;
 using Servirtium.Core.Interactions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using static Servirtium.Core.Interactions.FindAndReplaceScriptWriter;
+using static Servirtium.Demo.TestDirectories;
 
 namespace Servirtium.Demo
 {
@@ -17,11 +19,12 @@ namespace Servirtium.Demo
     {
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)
         {
+            var targetScriptPath = Path.Combine(RECORDING_OUTPUT_DIRECTORY, script);
             var loggerFactory = LoggerFactory.Create((builder) => builder
                 .AddConsole()
                 .AddDebug());
             var recorder = new InteractionRecorder(
-                ClimateApi.DEFAULT_SITE, $@"..\..\..\test_recording_output\{script}".Replace("\\", ""+System.IO.Path.DirectorySeparatorChar),
+                ClimateApi.DEFAULT_SITE, targetScriptPath,
                 new FindAndReplaceScriptWriter(new[] {
                     new RegexReplacement(new Regex("Set-Cookie: AWSALB=.*"), "Set-Cookie: AWSALB=REPLACED-IN-RECORDING; Expires=Thu, 15 Jan 2099 11:11:11 GMT; Path=/"),
                     new RegexReplacement(new Regex("Set-Cookie: TS0137860d=.*"), "Set-Cookie: TS0137860d=ALSO-REPLACED-IN-RECORDING; Path=/"),
@@ -47,7 +50,7 @@ namespace Servirtium.Demo
                 new ClimateApi(new Uri("http://localhost:1234"))
             ); 
             var replayer = new InteractionReplayer(null, null, null, null, loggerFactory);
-            replayer.LoadScriptFile($@"..\..\..\test_recording_output\{script}".Replace("\\", ""+System.IO.Path.DirectorySeparatorChar));
+            replayer.LoadScriptFile(targetScriptPath);
             yield return
             (
                 AspNetCoreServirtiumServer.WithTransforms(
