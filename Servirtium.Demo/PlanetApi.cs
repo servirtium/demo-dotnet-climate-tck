@@ -134,5 +134,20 @@ namespace Servirtium.Demo
 
             }
         }
+
+        public async Task OptionsRequest()
+        {
+            var requestUri = new Uri(_site, $"/boogy/wonderland");
+            var request = new HttpRequestMessage(HttpMethod.Options, requestUri);
+            request.Headers.Add("Access-Control-Request-Method", "JITTERBUG");
+            request.Headers.Add("Access-Control-Request-Headers", "JITTER, BUG, BOOGY");
+            var response = await _client.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                await response.Content.ReadAsStringAsync();
+
+            }
+            else throw new HttpRequestException($"OPTIONS Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
+        }
     }
 }

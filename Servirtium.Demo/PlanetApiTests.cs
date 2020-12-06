@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 using Xunit;
+using System.Text.RegularExpressions;
 
 namespace Servirtium.Demo
 {
@@ -31,19 +32,20 @@ namespace Servirtium.Demo
             _service.Start();
         }
 
-        internal abstract IEnumerable<(IServirtiumServer, PlanetApi)> GenerateTestServerClientPairs(string script);
+        internal abstract IEnumerable<(IServirtiumServer, PlanetApi)> GenerateTestServerClientPairs(string script, IEnumerable<RegexReplacement>? transformReplacements);
 
 
-        private void RunTest(string script, Action<PlanetApi> verification)
+        private void RunTest(string script, Action<PlanetApi> verification, params RegexReplacement[] transformReplacements)
         {
             //NOT thread safe :-P
             lock (_service)
             {
-                foreach ((IServirtiumServer server, PlanetApi api) in GenerateTestServerClientPairs(script))
+                foreach ((IServirtiumServer server, PlanetApi api) in GenerateTestServerClientPairs(script, transformReplacements))
                 {
                     try
                     {
                         server.Start();
+                        
                         verification(api);
                     }
                     finally
@@ -187,6 +189,46 @@ namespace Servirtium.Demo
                     }
                 }
             );
+        }
+
+        [Fact]
+        public virtual void OptionsRequestsAreIgnored()
+        {
+            RunTest
+            (
+                "destroyAPlanetAndCheckItHasGone.md",
+                (api) =>
+                {
+                    api.OptionsRequest().Wait();
+                    api.DestroyPlanet("sol", "jupiter").Wait();
+                    api.OptionsRequest().Wait();
+                    var solPlanets = api.GetPlanets("sol").Result;
+                    Assert.Equal(7, solPlanets.Count());
+                    Assert.Subset(new HashSet<string> { "mercury", "venus", "earth", "mars", "saturn", "uranus", "neptune" }, new HashSet<string>(solPlanets));
+                }
+            );
+        }
+
+
+
+        [Fact]
+        public virtual void UpdateAPlanetWithRequestAndResponseTransformsAndCheckThoseAreApplied()
+        {
+            RunTest
+            (
+                "updateAPlanetAndCheckItWithFindAndReplaceTransformsApplied.md",
+                (api) =>
+                {
+                    api.UpdatePlanet("sol", "jupiter", new Dictionary<string, string> { { "moons", "68" }, { "colour", "brown" } }).Wait();
+                    var jupiterData = api.GetPlanet("sol", "jupiter").Result;
+                    Assert.Equal(2, jupiterData.Count());
+                    Assert.Equal("68", jupiterData["moons"]);
+                    Assert.Equal("orange", jupiterData["colour"]);
+                },
+                new RegexReplacement(new Regex("brown"), "red", ReplacementContext.RequestBody),
+                new RegexReplacement(new Regex("red"), "orange", ReplacementContext.ResponseBody),
+                new RegexReplacement(new Regex("Kestrel"), "Merlin", ReplacementContext.ResponseHeader)
+            ); ;
         }
 
 

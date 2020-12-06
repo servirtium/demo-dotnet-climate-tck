@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using static Servirtium.Core.Interactions.FindAndReplaceScriptWriter;
 using static Servirtium.Demo.TestDirectories;
 
 namespace Servirtium.Demo
@@ -16,9 +15,9 @@ namespace Servirtium.Demo
     [Xunit.Collection("Servirtium Demo")]
     public class PlanetApiRecordAndPlaybackTests : PlanetApiTests
     {
-        internal override IEnumerable<(IServirtiumServer, PlanetApi)> GenerateTestServerClientPairs(string script)
+        internal override IEnumerable<(IServirtiumServer, PlanetApi)> GenerateTestServerClientPairs(string script, IEnumerable<RegexReplacement>? transformReplacements = null)
         {
-            
+            IEnumerable<RegexReplacement> replacements = transformReplacements ?? new RegexReplacement[0];
             var targetScriptPath = Path.Combine(RECORDING_OUTPUT_DIRECTORY, script);
             var recorder = new InteractionRecorder(
                 PlanetApi.DEFAULT_SITE, targetScriptPath,
@@ -30,14 +29,17 @@ namespace Servirtium.Demo
                 AspNetCoreServirtiumServer.WithTransforms(
                     1234,
                     recorder,
-                    new SimpleHttpMessageTransforms(
-                        PlanetApi.DEFAULT_SITE,
-                        new Regex[0],
-                        new[] {
-                        "Date:", "X-", "Strict-Transport-Security",
-                        "Content-Security-Policy", "Cache-Control", "Secure", "HttpOnly",
-                        "Set-Cookie: climatedata.cookie=" }.Select(pattern => new Regex(pattern)),
-                        loggerFactory
+                    new HttpMessageTransformPipeline(
+                        new SimpleHttpMessageTransforms(
+                            PlanetApi.DEFAULT_SITE,
+                            new Regex[0],
+                            new[] {
+                            "Date:", "X-", "Strict-Transport-Security",
+                            "Content-Security-Policy", "Cache-Control", "Secure", "HttpOnly",
+                            "Set-Cookie: climatedata.cookie=" }.Select(pattern => new Regex(pattern)),
+                            loggerFactory
+                        ),
+                        new FindAndReplaceHttpMessageTransforms(replacements, loggerFactory)
                     ), loggerFactory),
                 new PlanetApi(new Uri("http://localhost:1234"))
             );
@@ -48,11 +50,14 @@ namespace Servirtium.Demo
                 AspNetCoreServirtiumServer.WithTransforms(
                     1234,
                     replayer,
-                    new SimpleHttpMessageTransforms(
-                        PlanetApi.DEFAULT_SITE,
-                        new Regex[0],
-                        new[] { new Regex("Date:") },
-                        loggerFactory
+                    new HttpMessageTransformPipeline(
+                        new SimpleHttpMessageTransforms(
+                            PlanetApi.DEFAULT_SITE,
+                            new Regex[0],
+                            new[] { new Regex("Date:") },
+                            loggerFactory
+                        ),
+                        new FindAndReplaceHttpMessageTransforms(replacements, loggerFactory)
                     ), loggerFactory),
                 new PlanetApi(new Uri("http://localhost:1234"))
             );
