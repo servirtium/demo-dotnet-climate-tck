@@ -21,10 +21,18 @@ For your own use of Servirtium, you'd do something like the record and playback 
 
 ## Requirements
 
-.NET Core 3.1 or above
+1. .NET Core 3.1 or above
+2. Aspnetcore-runtime 3.1.14 or above.
 
 ### Mac OS
 
 MacOS requires the mono GDI plus implentation installed to run the PlanetAPI tests, this can be installed via brew:
 
 `brew install mono-libgdiplus`
+
+## Building and running tests
+
+```
+dotnet build
+dotnet test
+```
