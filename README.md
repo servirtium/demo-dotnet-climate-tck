@@ -26,13 +26,14 @@ For your own use of Servirtium, you'd do something like the record and playback 
 
 ### Mac OS
 
-MacOS requires the mono GDI plus implentation installed to run the PlanetAPI tests, this can be installed via brew:
+MacOS requires the mono GDI plus implemtation installed to run the PlanetAPI tests, this can be installed via brew:
 
 `brew install mono-libgdiplus`
 
 ## Building and running tests
 
 ```
+dotnet restore
 dotnet build
 dotnet test
 ```
