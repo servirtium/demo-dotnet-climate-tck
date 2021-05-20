@@ -15,7 +15,7 @@ using static Servirtium.Demo.TestDirectories;
 namespace Servirtium.Demo
 {
     [Xunit.Collection("Servirtium Demo")]
-    public class ClimateApiRecordAndPlaybackProxyTests : ClimateApiTests
+    public class ClimateApiRecordAndPlaybackProxyTests : ClimateApiTests, IDisposable
     {
         private readonly HttpClient _client;
         public ClimateApiRecordAndPlaybackProxyTests()
@@ -24,6 +24,10 @@ namespace Servirtium.Demo
             _client = new HttpClient(new HttpClientHandler() { UseProxy = true, Proxy = new WebProxy(new Uri("http://localhost:1234"), false) });
         }
 
+        public void Dispose()
+        {
+            _client.Dispose();
+        }
 
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)
         {

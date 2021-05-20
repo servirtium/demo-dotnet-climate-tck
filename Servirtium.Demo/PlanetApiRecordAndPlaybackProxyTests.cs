@@ -15,7 +15,7 @@ using static Servirtium.Demo.TestDirectories;
 namespace Servirtium.Demo
 {
     [Xunit.Collection("Servirtium Demo")]
-    public class PlanetApiRecordAndPlaybackProxyTests : PlanetApiTests
+    public class PlanetApiRecordAndPlaybackProxyTests : PlanetApiTests, IDisposable
     {
         private readonly HttpClient _client;
         public PlanetApiRecordAndPlaybackProxyTests()
@@ -23,6 +23,11 @@ namespace Servirtium.Demo
             _client = new HttpClient(new HttpClientHandler() { UseProxy = true, Proxy = new WebProxy(new Uri("http://localhost:1234"), false) });
         }
 
+        public void Dispose()
+        {
+            _client.Dispose();
+        }
+        
         internal override IEnumerable<(IServirtiumServer, PlanetApi)> GenerateTestServerClientPairs(string script, IEnumerable<RegexReplacement>? transformReplacements = null)
         {
             IEnumerable<RegexReplacement> replacements = transformReplacements ?? new RegexReplacement[0];
