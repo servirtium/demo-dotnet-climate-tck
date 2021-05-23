@@ -23,8 +23,9 @@ namespace Servirtium.Demo
             _client = new HttpClient(new HttpClientHandler() { UseProxy = true, Proxy = new WebProxy(new Uri("http://localhost:1234"), false) });
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
+            base.Dispose();
             _client.Dispose();
         }
         
