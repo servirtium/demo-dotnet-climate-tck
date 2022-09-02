@@ -11,7 +11,7 @@ namespace Servirtium.Demo
 { 
     internal class ClimateApi
     {
-        internal static readonly Uri DEFAULT_SITE = new Uri("http://climatedataapi.worldbank.org");
+        internal static readonly Uri DEFAULT_SITE = new Uri("http://worldbank-api-for-servirtium.local.gd:4567");
 
         private readonly Uri _site;
         private readonly HttpClient _client;
