@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Servirtium.Demo
+namespace Servirtium.Climate.Demo
 { 
     internal class ClimateApi
     {

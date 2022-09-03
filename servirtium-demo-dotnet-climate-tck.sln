@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servirtium.Climate.Demo", "Servirtium.Climate.Demo\Servirtium.Climate.Demo.csproj", "{E8825ACD-CE80-441E-8765-68A64CEDF224}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servirtium.Planet.Demo", "Servirtium.Planet.Demo\Servirtium.Planet.Demo.csproj", "{644443F0-5F71-4958-B38D-57FBD72323AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E8825ACD-CE80-441E-8765-68A64CEDF224}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8825ACD-CE80-441E-8765-68A64CEDF224}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8825ACD-CE80-441E-8765-68A64CEDF224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{644443F0-5F71-4958-B38D-57FBD72323AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{644443F0-5F71-4958-B38D-57FBD72323AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{644443F0-5F71-4958-B38D-57FBD72323AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{644443F0-5F71-4958-B38D-57FBD72323AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

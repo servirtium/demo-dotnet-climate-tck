@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 using Xunit;
 using System.Text.RegularExpressions;
 
-namespace Servirtium.Demo
+namespace Servirtium.Planet.Demo
 {
     public abstract class PlanetApiTests : IDisposable
     {

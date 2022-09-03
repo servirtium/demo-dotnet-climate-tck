@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using static Servirtium.Demo.TestDirectories;
+using static Servirtium.Planet.Demo.TestDirectories;
 
-namespace Servirtium.Demo
+namespace Servirtium.Planet.Demo
 {
     [Xunit.Collection("Servirtium Demo")]
     public class PlanetApiRecordAndPlaybackTests : PlanetApiTests

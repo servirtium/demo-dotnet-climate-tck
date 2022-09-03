@@ -10,9 +10,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
-using static Servirtium.Demo.TestDirectories;
+using static Servirtium.Climate.Demo.TestDirectories;
 
-namespace Servirtium.Demo
+namespace Servirtium.Climate.Demo
 {
     [Xunit.Collection("Servirtium Demo")]
     public class ClimateApiRecordAndPlaybackProxyTests : ClimateApiTests, IDisposable

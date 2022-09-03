@@ -8,7 +8,7 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace Servirtium.Demo
+namespace Servirtium.Climate.Demo
 {
     public abstract class ClimateApiTests
     {

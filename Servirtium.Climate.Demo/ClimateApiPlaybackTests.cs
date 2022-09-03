@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using static Servirtium.Demo.TestDirectories;
+using static Servirtium.Climate.Demo.TestDirectories;
 
-namespace Servirtium.Demo
+namespace Servirtium.Climate.Demo
 {
     [Xunit.Collection("Servirtium Demo")]
     public class ClimateApiPlaybackTests : ClimateApiTests

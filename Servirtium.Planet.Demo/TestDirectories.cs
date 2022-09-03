@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Servirtium.Climate.Demo
+namespace Servirtium.Planet.Demo
 {
     public static class TestDirectories
     {

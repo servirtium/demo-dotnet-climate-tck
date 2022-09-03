@@ -2,7 +2,7 @@ using Servirtium.Core;
 using System;
 using System.Collections.Generic;
 
-namespace Servirtium.Demo
+namespace Servirtium.Climate.Demo
 {
     [Xunit.Collection("Servirtium Demo")]
     public class ClimateApiDirectTests : ClimateApiTests

@@ -4,7 +4,7 @@ using Servirtium.Core.Interactions;
 using System;
 using System.Collections.Generic;
 
-namespace Servirtium.Demo
+namespace Servirtium.Climate.Demo
 {
     [Xunit.Collection("Servirtium Demo")]
     public class ClimateApiPassThroughTests : ClimateApiTests

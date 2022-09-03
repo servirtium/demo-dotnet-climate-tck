@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Servirtium.Demo
+namespace Servirtium.Planet.Demo
 {
     [Xunit.Collection("Servirtium Demo")]
     public class PlanetApiDirectTests : PlanetApiTests

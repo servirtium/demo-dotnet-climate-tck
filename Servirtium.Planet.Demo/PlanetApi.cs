@@ -11,7 +11,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Threading;
 
-namespace Servirtium.Demo
+namespace Servirtium.Planet.Demo
 {
     class PlanetApi
     {
