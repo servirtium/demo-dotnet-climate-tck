@@ -1,2 +1,3 @@
-Servirtium.Demo/bin/
-Servirtium.Demo/obj/
+*/bin/
+*/obj/
+.idea/

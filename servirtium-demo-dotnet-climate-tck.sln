@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servirtium.Demo", "Servirtium.Demo\Servirtium.Demo.csproj", "{E8825ACD-CE80-441E-8765-68A64CEDF224}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servirtium.Climate.Demo", "Servirtium.Climate.Demo\Servirtium.Climate.Demo.csproj", "{E8825ACD-CE80-441E-8765-68A64CEDF224}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
