@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Servirtium.Climate.Demo
 {
-    [Xunit.Collection("Servirtium Demo")]
+    [Xunit.Collection("Servirtium ClimateApi Demo")]
     public class ClimateApiDirectTests : ClimateApiTests
     {
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)

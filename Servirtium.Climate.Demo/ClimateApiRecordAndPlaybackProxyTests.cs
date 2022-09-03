@@ -14,14 +14,14 @@ using static Servirtium.Climate.Demo.TestDirectories;
 
 namespace Servirtium.Climate.Demo
 {
-    [Xunit.Collection("Servirtium Demo")]
+    [Xunit.Collection("Servirtium ClimateAPi Demo")]
     public class ClimateApiRecordAndPlaybackProxyTests : ClimateApiTests, IDisposable
     {
         private readonly HttpClient _client;
         public ClimateApiRecordAndPlaybackProxyTests()
         {
             Directory.CreateDirectory("proxy_test_recording_output");
-            _client = new HttpClient(new HttpClientHandler() { UseProxy = true, Proxy = new WebProxy(new Uri("http://localhost:1234"), false) });
+            _client = new HttpClient(new HttpClientHandler() { UseProxy = true, Proxy = new WebProxy(new Uri("http://servirtium.local.gd:61417"), false) });
         }
 
         public void Dispose()
@@ -45,7 +45,7 @@ namespace Servirtium.Climate.Demo
             yield return 
             (
                 AspNetCoreServirtiumServer.WithTransforms(
-                    1234,
+                    61417,
                     recorder,
                     new SimpleHttpMessageTransforms(
                         new Regex[0],
@@ -62,7 +62,7 @@ namespace Servirtium.Climate.Demo
             yield return
             (
                 AspNetCoreServirtiumServer.WithTransforms(
-                    1234,
+                    61417,
                     replayer,
                     new SimpleHttpMessageTransforms(
                         new[] { new Regex("Cookie:") },

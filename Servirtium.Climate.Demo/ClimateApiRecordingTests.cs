@@ -13,7 +13,7 @@ using static Servirtium.Climate.Demo.TestDirectories;
 
 namespace Servirtium.Climate.Demo
 {
-    [Xunit.Collection("Servirtium Demo")]
+    [Xunit.Collection("Servirtium ClimateApi Demo")]
     public class ClimateApiRecordingTests : ClimateApiTests
     {
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)
@@ -42,7 +42,7 @@ namespace Servirtium.Climate.Demo
                         "Set-Cookie: climatedata.cookie=" }.Select(pattern => new Regex(pattern)),
                         loggerFactory
                     ), loggerFactory),
-                new ClimateApi(new Uri("http://localhost:1234"))
+                new ClimateApi(new Uri("http://servirtium.local.gd:61417"))
             );
         }
     }

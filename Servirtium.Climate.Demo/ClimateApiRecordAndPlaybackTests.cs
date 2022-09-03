@@ -13,7 +13,7 @@ using static Servirtium.Climate.Demo.TestDirectories;
 
 namespace Servirtium.Climate.Demo
 {
-    [Xunit.Collection("Servirtium Demo")]
+    [Xunit.Collection("Servirtium ClimateApi Demo")]
     public class ClimateApiRecordAndPlaybackTests : ClimateApiTests
     {
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)
@@ -32,7 +32,7 @@ namespace Servirtium.Climate.Demo
             yield return 
             (
                 AspNetCoreServirtiumServer.WithTransforms(
-                    1234,
+                    61417,
                     recorder,
                     new SimpleHttpMessageTransforms(
                         ClimateApi.DEFAULT_SITE,
@@ -43,14 +43,14 @@ namespace Servirtium.Climate.Demo
                         "Set-Cookie: climatedata.cookie=" }.Select(pattern => new Regex(pattern)),
                         loggerFactory
                     ), loggerFactory),
-                new ClimateApi(new Uri("http://localhost:1234"))
+                new ClimateApi(new Uri("http://servirtium.local.gd:61417"))
             ); 
             var replayer = new InteractionReplayer(null, null, null, null, loggerFactory);
             replayer.LoadScriptFile(targetScriptPath);
             yield return
             (
                 AspNetCoreServirtiumServer.WithTransforms(
-                    1234,
+                    61417,
                     replayer,
                     new SimpleHttpMessageTransforms(
                         ClimateApi.DEFAULT_SITE,
@@ -58,7 +58,7 @@ namespace Servirtium.Climate.Demo
                         new[] { new Regex("Date:"), new Regex("Cookie:") },
                         loggerFactory
                     ), loggerFactory),
-                new ClimateApi(new Uri("http://localhost:1234"))
+                new ClimateApi(new Uri("http://servirtium.local.gd:61417"))
             );
         }
     }

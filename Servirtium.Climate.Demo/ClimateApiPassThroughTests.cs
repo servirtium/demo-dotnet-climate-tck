@@ -6,15 +6,15 @@ using System.Collections.Generic;
 
 namespace Servirtium.Climate.Demo
 {
-    [Xunit.Collection("Servirtium Demo")]
+    [Xunit.Collection("Servirtium ClimateApi Demo")]
     public class ClimateApiPassThroughTests : ClimateApiTests
     {
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)
         {
             yield return
             (
-                AspNetCoreServirtiumServer.Default(1234, new PassThroughInteractionMonitor(ClimateApi.DEFAULT_SITE), ClimateApi.DEFAULT_SITE),
-                new ClimateApi(new Uri("http://localhost:1234"))
+                AspNetCoreServirtiumServer.Default(61417, new PassThroughInteractionMonitor(ClimateApi.DEFAULT_SITE), ClimateApi.DEFAULT_SITE),
+                new ClimateApi(new Uri("http://servirtium.local.gd:61417"))
             );
         }
     }
