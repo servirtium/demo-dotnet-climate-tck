@@ -7,6 +7,7 @@ docker build git@github.com:servirtium/worldbank-climate-recordings.git#main -t 
 docker run -d -p 4567:4567 worldbank-api
 ```
 
+The build for this demo project needs that docker container running
 
 # Servirtium demo for .NET
 
