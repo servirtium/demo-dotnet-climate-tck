@@ -46,7 +46,7 @@ namespace Servirtium.Climate.Demo
         }
 
         [Fact]
-        public void AverageRainfallForFranceFrom1980to1999Exists()
+        public virtual void AverageRainfallForFranceFrom1980to1999Exists()
         {
             RunTest(
                "averageRainfallForFranceFrom1980to1999Exists.md",
@@ -55,7 +55,7 @@ namespace Servirtium.Climate.Demo
         }
 
         [Fact]
-        public void AverageRainfallForEgyptFrom1980to1999Exists()
+        public virtual void AverageRainfallForEgyptFrom1980to1999Exists()
         {
             RunTest(
                "averageRainfallForEgyptFrom1980to1999Exists.md",
@@ -64,7 +64,7 @@ namespace Servirtium.Climate.Demo
         }
 
         [Fact]
-        public void AverageRainfallForGreatBritainFrom1985to1995DoesNotExist()
+        public virtual void AverageRainfallForGreatBritainFrom1985to1995DoesNotExist()
         {
             RunTest(
                "averageRainfallForGreatBritainFrom1985to1995DoesNotExist.md",
@@ -77,7 +77,7 @@ namespace Servirtium.Climate.Demo
         }
 
         [Fact]
-        public void AverageRainfallForMiddleEarthFrom1980to1999DoesNotExist()
+        public virtual void AverageRainfallForMiddleEarthFrom1980to1999DoesNotExist()
         {
             RunTest(
                "averageRainfallForMiddleEarthFrom1980to1999DoesNotExist.md",
@@ -90,7 +90,7 @@ namespace Servirtium.Climate.Demo
         }
 
         [Fact]
-        public void AverageRainfallForGreatBritainAndFranceFrom1980to1999CanBeCalculatedFromTwoRequests()
+        public virtual void AverageRainfallForGreatBritainAndFranceFrom1980to1999CanBeCalculatedFromTwoRequests()
         {
             RunTest(
                "averageRainfallForGreatBritainAndFranceFrom1980to1999CanBeCalculatedFromTwoRequests.md",
@@ -99,7 +99,7 @@ namespace Servirtium.Climate.Demo
         }
 
         [Fact]
-        public void AverageRainfallForNeptuneServiceNotFound()
+        public virtual void AverageRainfallForNeptuneServiceNotFound()
         {
             RunTest(
                "averageRainfallForNeptuneFrom1980to1999NotFoundError.md",
