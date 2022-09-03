@@ -21,7 +21,7 @@ namespace Servirtium.Demo
             yield return
             (
                 AspNetCoreServirtiumServer.WithTransforms(
-                    1234,
+                    61417,
                     replayer, 
                     new SimpleHttpMessageTransforms(
                         ClimateApi.DEFAULT_SITE, 
@@ -29,7 +29,7 @@ namespace Servirtium.Demo
                         new[] { new Regex("Date:"), new Regex("Cookie:") }, 
                         loggerFactory
                     ), loggerFactory),
-                new ClimateApi(new Uri("http://localhost:1234"))
+                new ClimateApi(new Uri("http://servirtium.local.gd:61417"))
             );
         }
     }
