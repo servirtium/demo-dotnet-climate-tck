@@ -12,7 +12,7 @@ using static Servirtium.Planet.Demo.TestDirectories;
 
 namespace Servirtium.Planet.Demo
 {
-    [Xunit.Collection("Servirtium Demo")]
+    [Xunit.Collection("Servirtium Planet Demo")]
     public class PlanetApiRecordAndPlaybackTests : PlanetApiTests
     {
         internal override IEnumerable<(IServirtiumServer, PlanetApi)> GenerateTestServerClientPairs(string script, IEnumerable<RegexReplacement>? transformReplacements = null)

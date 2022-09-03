@@ -14,7 +14,7 @@ using static Servirtium.Planet.Demo.TestDirectories;
 
 namespace Servirtium.Planet.Demo
 {
-    [Xunit.Collection("Servirtium Demo")]
+    [Xunit.Collection("Servirtium Planet Demo")]
     public class PlanetApiRecordAndPlaybackProxyTests : PlanetApiTests, IDisposable
     {
         private readonly HttpClient _client;
