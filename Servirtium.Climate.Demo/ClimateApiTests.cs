@@ -36,7 +36,7 @@ namespace Servirtium.Climate.Demo
             }
         }
 
-        [Fact]
+        
         public virtual void AverageRainfallForGreatBritainFrom1980to1999Exists()
         {
             RunTest(
@@ -45,7 +45,7 @@ namespace Servirtium.Climate.Demo
             );
         }
 
-        [Fact]
+        
         public virtual void AverageRainfallForFranceFrom1980to1999Exists()
         {
             RunTest(
@@ -54,7 +54,7 @@ namespace Servirtium.Climate.Demo
             );
         }
 
-        [Fact]
+        
         public virtual void AverageRainfallForEgyptFrom1980to1999Exists()
         {
             RunTest(
@@ -62,8 +62,7 @@ namespace Servirtium.Climate.Demo
                (api) => Assert.Equal(54.58587712129825, api.GetAveAnnualRainfall(1980, 1999, "egy").Result, 0)
             );
         }
-
-        [Fact]
+        
         public virtual void AverageRainfallForGreatBritainFrom1985to1995DoesNotExist()
         {
             RunTest(
@@ -76,7 +75,7 @@ namespace Servirtium.Climate.Demo
             );
         }
 
-        [Fact]
+        
         public virtual void AverageRainfallForMiddleEarthFrom1980to1999DoesNotExist()
         {
             RunTest(
@@ -89,7 +88,7 @@ namespace Servirtium.Climate.Demo
             );
         }
 
-        [Fact]
+        
         public virtual void AverageRainfallForGreatBritainAndFranceFrom1980to1999CanBeCalculatedFromTwoRequests()
         {
             RunTest(
@@ -98,7 +97,7 @@ namespace Servirtium.Climate.Demo
             );
         }
 
-        [Fact]
+        
         public virtual void AverageRainfallForNeptuneServiceNotFound()
         {
             RunTest(
