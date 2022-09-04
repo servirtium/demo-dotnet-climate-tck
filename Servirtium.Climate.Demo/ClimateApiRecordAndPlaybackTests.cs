@@ -9,11 +9,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Xunit;
 using static Servirtium.Climate.Demo.TestDirectories;
 
 namespace Servirtium.Climate.Demo
 {
     [Xunit.Collection("Servirtium ClimateApi Demo")]
+    [CollectionDefinition(nameof(ClimateApiRecordAndPlaybackTests), DisableParallelization = true)]
     public class ClimateApiRecordAndPlaybackTests : ClimateApiTests
     {
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)

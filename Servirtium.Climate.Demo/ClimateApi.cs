@@ -16,7 +16,7 @@ namespace Servirtium.Climate.Demo
         private readonly Uri _site;
         private readonly HttpClient _client;
         public ClimateApi(): this(DEFAULT_SITE) { }
-        public ClimateApi(Uri site) : this (new HttpClient { Timeout = TimeSpan.FromSeconds(3) }, site) {}
+        public ClimateApi(Uri site) : this (new HttpClient { Timeout = TimeSpan.FromSeconds(5) }, site) {}
 
         public ClimateApi(HttpClient client) : this(client, DEFAULT_SITE) { }
 

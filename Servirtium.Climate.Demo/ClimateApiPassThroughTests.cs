@@ -3,10 +3,12 @@ using Servirtium.Core;
 using Servirtium.Core.Interactions;
 using System;
 using System.Collections.Generic;
+using Xunit;
 
 namespace Servirtium.Climate.Demo
 {
     [Xunit.Collection("Servirtium ClimateApi Demo")]
+    [CollectionDefinition(nameof(ClimateApiPassThroughTests), DisableParallelization = true)]
     public class ClimateApiPassThroughTests : ClimateApiTests
     {
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)

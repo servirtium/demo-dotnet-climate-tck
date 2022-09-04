@@ -9,11 +9,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Xunit;
 using static Servirtium.Climate.Demo.TestDirectories;
 
 namespace Servirtium.Climate.Demo
 {
     [Xunit.Collection("Servirtium ClimateApi Demo")]
+    [CollectionDefinition(nameof(ClimateApiRecordingTests), DisableParallelization = true)]
     public class ClimateApiRecordingTests : ClimateApiTests
     {
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)
@@ -31,7 +33,7 @@ namespace Servirtium.Climate.Demo
             yield return 
             (
                 AspNetCoreServirtiumServer.WithTransforms(
-                    1234,
+                    61417,
                     recorder,
                     new SimpleHttpMessageTransforms(
                         ClimateApi.DEFAULT_SITE,

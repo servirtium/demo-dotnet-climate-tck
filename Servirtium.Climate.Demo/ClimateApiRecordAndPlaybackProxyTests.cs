@@ -10,11 +10,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using Xunit;
 using static Servirtium.Climate.Demo.TestDirectories;
 
 namespace Servirtium.Climate.Demo
 {
-    [Xunit.Collection("Servirtium ClimateAPi Demo")]
+    [Xunit.Collection("Servirtium ClimateApi Demo")]
+    [CollectionDefinition(nameof(ClimateApiRecordAndPlaybackProxyTests), DisableParallelization = true)]
     public class ClimateApiRecordAndPlaybackProxyTests : ClimateApiTests, IDisposable
     {
         private readonly HttpClient _client;
