@@ -37,15 +37,38 @@ For your own use of Servirtium, you'd do something like the record and playback 
 
 ### Mac OS
 
-MacOS requires the mono GDI plus implemtation installed to run the PlanetAPI tests, this can be installed via brew:
+MacOS requires the mono GDI plus implementation installed to run the PlanetAPI tests, this can be installed via brew:
 
 `brew install mono-libgdiplus`
 
 ## Building and running tests
 
 ```
-dotnet restore
-dotnet build
-dotnet test
+$ dotnet restore
+$ dotnet build
+$ dotnet test
 ```
- 
+
+### Climate API tests - direct (no Servirtium)
+
+```
+$ cd Servirtium.Climate.Demo
+$ dotnet test --filter ClimateApiDirectTests
+Passed!  - Failed:     0, Passed:     7, Skipped:     0, Total:     7, Duration: 35 ms
+```
+
+### Climate API tests - record mode
+
+```
+$ cd Servirtium.Climate.Demo
+$ dotnet test --filter ClimateApiRecordingTests
+Passed!  - Failed:     0, Passed:     7, Skipped:     0, Total:     7, Duration: 1 s
+```
+
+### Climate API tests - record mode
+
+```
+$ cd Servirtium.Climate.Demo
+$ dotnet test --filter ClimateApiRecordingTests
+Passed!  - Failed:     0, Passed:     7, Skipped:     0, Total:     7, Duration: 590 ms
+```
