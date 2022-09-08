@@ -44,7 +44,7 @@ namespace Servirtium.Climate.Demo
                         "Set-Cookie: climatedata.cookie=" }.Select(pattern => new Regex(pattern)),
                         loggerFactory
                     ), loggerFactory),
-                new ClimateApi(new Uri("http://servirtium.local.gd:61417"))
+                new ClimateApi(ClimateApi.GetRealServiceUrl())
             );
         }
         

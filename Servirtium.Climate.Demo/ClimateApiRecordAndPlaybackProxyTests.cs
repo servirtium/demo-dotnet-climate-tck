@@ -23,7 +23,7 @@ namespace Servirtium.Climate.Demo
         public ClimateApiRecordAndPlaybackProxyTests()
         {
             Directory.CreateDirectory("proxy_test_recording_output");
-            _client = new HttpClient(new HttpClientHandler() { UseProxy = true, Proxy = new WebProxy(new Uri("http://servirtium.local.gd:61417"), false) });
+            _client = new HttpClient(new HttpClientHandler() { UseProxy = true, Proxy = new WebProxy(ClimateApi.GetRealServiceUrl(), false) });
         }
 
         public void Dispose()

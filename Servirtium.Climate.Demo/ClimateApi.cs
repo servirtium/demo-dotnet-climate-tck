@@ -1,6 +1,7 @@
 ﻿using Servirtium.Core;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -11,11 +12,11 @@ namespace Servirtium.Climate.Demo
 { 
     internal class ClimateApi
     {
-        internal static readonly Uri DEFAULT_SITE = new Uri("http://worldbank-api-for-servirtium.local.gd:4567");
+        public static readonly Uri DEFAULT_SITE = new Uri("http://worldbank-api-for-servirtium.local.gd:4567");
+        public static readonly Uri GITHUB_STATIC_SITE = new Uri("http://worldbank-api-for-servirtium.local.gd:4567");
 
         private readonly Uri _site;
         private readonly HttpClient _client;
-        public ClimateApi(): this(DEFAULT_SITE) { }
         public ClimateApi(Uri site) : this (new HttpClient { Timeout = TimeSpan.FromSeconds(5) }, site) {}
 
         public ClimateApi(HttpClient client) : this(client, DEFAULT_SITE) { }
@@ -81,5 +82,12 @@ namespace Servirtium.Climate.Demo
             else throw new HttpRequestException($"GET Request to {requestUri} failed, status {response.StatusCode}, Content: {Environment.NewLine}{await response.Content.ReadAsStringAsync()}");
 
         }
+        public static Uri GetRealServiceUrl()
+        {
+            return File.Exists(".useGithubHostedRealService") 
+                ? ClimateApi.GITHUB_STATIC_SITE 
+                : ClimateApi.DEFAULT_SITE;
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 using Servirtium.Core;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace Servirtium.Climate.Demo
@@ -11,9 +12,9 @@ namespace Servirtium.Climate.Demo
     {
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)
         {
-            yield return (new StubServirtiumServer(), new ClimateApi());
+            yield return (new StubServirtiumServer(), new ClimateApi(ClimateApi.GetRealServiceUrl()));
         }
-
+        
         [Fact]
         public override void AverageRainfallForGreatBritainFrom1980to1999Exists()
         {

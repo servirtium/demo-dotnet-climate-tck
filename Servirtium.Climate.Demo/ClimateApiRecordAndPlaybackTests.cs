@@ -22,7 +22,7 @@ namespace Servirtium.Climate.Demo
         {
             var targetScriptPath = Path.Combine(RECORDING_OUTPUT_DIRECTORY, script);
             var recorder = new InteractionRecorder(
-                ClimateApi.DEFAULT_SITE, targetScriptPath,
+                ClimateApi.GetRealServiceUrl(), targetScriptPath,
                 new FindAndReplaceScriptWriter(new[] {
                     new RegexReplacement(new Regex("Set-Cookie: AWSALB=.*"), "Set-Cookie: AWSALB=REPLACED-IN-RECORDING; Expires=Thu, 15 Jan 2099 11:11:11 GMT; Path=/"),
                     new RegexReplacement(new Regex("Set-Cookie: TS0137860d=.*"), "Set-Cookie: TS0137860d=ALSO-REPLACED-IN-RECORDING; Path=/"),

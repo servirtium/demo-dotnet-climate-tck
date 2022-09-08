@@ -31,7 +31,7 @@ namespace Servirtium.Climate.Demo
                         new[] { new Regex("Date:"), new Regex("Cookie:") }, 
                         loggerFactory
                     ), loggerFactory),
-                new ClimateApi(new Uri("http://servirtium.local.gd:61417"))
+                new ClimateApi(ClimateApi.GetRealServiceUrl())
             );
         }
         
