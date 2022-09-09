@@ -112,6 +112,8 @@ $ dotnet test --filter ClimateApiDirectTests
 Passed!  - Failed:     0, Passed:     7, Skipped:     0, Total:     7, Duration: 35 ms
 ```
 
+This mode of operation is important as you want to prove a bug is or is not in Servirtium itself.
+
 ### Climate API tests - record mode
 
 ```
@@ -120,7 +122,9 @@ $ dotnet test --filter ClimateApiRecordingTests
 Passed!  - Failed:     0, Passed:     7, Skipped:     0, Total:     7, Duration: 1 s
 ```
 
-### Climate API tests - record mode
+You'd have a non-CI build (Jenkins, etc) that would attempt to re-record the interactions and fail if there were differences. Humans would investigate at the next opportunity (as a priority) to see why recording would differ. Specifically, on their own machine, not in the cloud-based build farm.
+
+### Climate API tests - playback mode
 
 ```
 $ cd Servirtium.Climate.Demo
@@ -128,4 +132,4 @@ $ dotnet test --filter ClimateApiRecordingTests
 Passed!  - Failed:     0, Passed:     7, Skipped:     0, Total:     7, Duration: 590 ms
 ```
 
-Note the playback mode is quickest. Your day to dey development of you main applications functionality would rely on this mode of operation. 
+Note the playback mode is quickest. Your day to dey development of you main applications functionality would rely on this mode of operation. It would ideally have a "--servirtium-playback-mode-for-out-of-team-services" but different test frameworks have different ways of doing that from command-line settings
