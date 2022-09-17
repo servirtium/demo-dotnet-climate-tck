@@ -17,7 +17,7 @@ This repo was build following the step-by-step guide at [https://servirtium.dev/
 
 - status: pretty much complete
 
-As well as making a Servirtium library for a language, this step by step guild leaves you with a **contrived** example library that serves as an example of how to use Servirtium.
+As well as making a Servirtium library for a language, this step-by-step guide leaves you with a **contrived** example library that serves as an example of how to use Servirtium.
 
 Someone wanting to see an example of how to use Servirtium for a .NET project would look at ths repo's source. Someone wanting to learn Servirtium by tutorial or extensive reference documentation needs to look elsewhere - sorry!
 
