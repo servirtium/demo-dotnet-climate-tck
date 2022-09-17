@@ -31,7 +31,7 @@ The library comes with a means to re-record those service interactions, using Se
 
 Teams evaluating the Servirtium library (but not developing it) would:
 
-* ignore the world back climate API aspect of this (just for the sake of the demo)
+* ignore the world bank climate API aspect of this (just for the sake of this demo)
 * focus on a HTTP service their application uses (but could easily be outside the dev team in question)
 * write their own tests (using their preferred test runner - SpecFlow, NBehave are fine choices).
 * make servirtium optionally do recordings as a mode of operation (commit those recording to Git)
