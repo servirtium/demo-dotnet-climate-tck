@@ -26,7 +26,7 @@ namespace Servirtium.Climate.Demo
                     61417,
                     replayer, 
                     new SimpleHttpMessageTransforms(
-                        ClimateApi.DEFAULT_SITE, 
+                        ClimateApi.GetRealServiceUrl(), 
                         new[] { new Regex("Cookie:") }, 
                         new[] { new Regex("Date:"), new Regex("Cookie:") }, 
                         loggerFactory

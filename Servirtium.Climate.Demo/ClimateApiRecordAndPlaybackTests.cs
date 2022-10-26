@@ -37,7 +37,7 @@ namespace Servirtium.Climate.Demo
                     61417,
                     recorder,
                     new SimpleHttpMessageTransforms(
-                        ClimateApi.DEFAULT_SITE,
+                        ClimateApi.GetRealServiceUrl(),
                         new Regex[0],
                         new[] {
                         "Date:", "X-", "Strict-Transport-Security",
@@ -55,7 +55,7 @@ namespace Servirtium.Climate.Demo
                     61417,
                     replayer,
                     new SimpleHttpMessageTransforms(
-                        ClimateApi.DEFAULT_SITE,
+                        ClimateApi.GetRealServiceUrl(),
                         new[] { new Regex("Cookie:") },
                         new[] { new Regex("Date:"), new Regex("Cookie:") },
                         loggerFactory

@@ -21,7 +21,7 @@ namespace Servirtium.Climate.Demo
         internal override IEnumerable<(IServirtiumServer, ClimateApi)> GenerateTestServerClientPairs(string script)
         {
             var recorder = new InteractionRecorder(
-                ClimateApi.DEFAULT_SITE, Path.Combine(RECORDING_OUTPUT_DIRECTORY, script),
+                ClimateApi.GetRealServiceUrl(), Path.Combine(RECORDING_OUTPUT_DIRECTORY, script),
                 new FindAndReplaceScriptWriter(new[] {
                     new RegexReplacement(new Regex("Set-Cookie: AWSALB=.*"), "Set-Cookie: AWSALB=REPLACED-IN-RECORDING; Expires=Thu, 15 Jan 2099 11:11:11 GMT; Path=/"),
                     new RegexReplacement(new Regex("Set-Cookie: TS0137860d=.*"), "Set-Cookie: TS0137860d=ALSO-REPLACED-IN-RECORDING; Path=/"),
@@ -36,7 +36,7 @@ namespace Servirtium.Climate.Demo
                     61417,
                     recorder,
                     new SimpleHttpMessageTransforms(
-                        ClimateApi.DEFAULT_SITE,
+                        ClimateApi.GetRealServiceUrl(),
                         new Regex[0],
                         new[] {
                         "Date:", "X-", "Strict-Transport-Security",

@@ -12,14 +12,14 @@ namespace Servirtium.Climate.Demo
 { 
     internal class ClimateApi
     {
-        public static readonly Uri DEFAULT_SITE = new Uri("http://worldbank-api-for-servirtium.local.gd:4567");
-        public static readonly Uri GITHUB_STATIC_SITE = new Uri("http://worldbank-api-for-servirtium.local.gd:4567");
+        public static readonly Uri DOCKER_SITE = new Uri("http://worldbank-api-for-servirtium.local.gd:4567");
+        public static readonly Uri GITHUB_STATIC_SITE = new Uri("https://servirtium.github.io/worldbank-climate-recordings");
 
         private readonly Uri _site;
         private readonly HttpClient _client;
         public ClimateApi(Uri site) : this (new HttpClient { Timeout = TimeSpan.FromSeconds(5) }, site) {}
 
-        public ClimateApi(HttpClient client) : this(client, DEFAULT_SITE) { }
+        public ClimateApi(HttpClient client) : this(client, DOCKER_SITE) { }
 
         public ClimateApi(HttpClient client, Uri site)
         {
@@ -84,9 +84,9 @@ namespace Servirtium.Climate.Demo
         }
         public static Uri GetRealServiceUrl()
         {
-            return File.Exists(".useGithubHostedRealService") 
-                ? ClimateApi.GITHUB_STATIC_SITE 
-                : ClimateApi.DEFAULT_SITE;
+            return File.Exists(".useDockerHostedRealService") 
+                ? ClimateApi.DOCKER_SITE
+                : ClimateApi.GITHUB_STATIC_SITE;
         }
 
     }

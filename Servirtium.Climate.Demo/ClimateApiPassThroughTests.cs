@@ -15,8 +15,8 @@ namespace Servirtium.Climate.Demo
         {
             yield return
             (
-                AspNetCoreServirtiumServer.Default(61417, new PassThroughInteractionMonitor(ClimateApi.DEFAULT_SITE), ClimateApi.DEFAULT_SITE),
-                new ClimateApi(ClimateApi.GetRealServiceUrl())
+                AspNetCoreServirtiumServer.Default(61417, new PassThroughInteractionMonitor(ClimateApi.GetRealServiceUrl()), 
+                    ClimateApi.GetRealServiceUrl()), new ClimateApi(ClimateApi.GetRealServiceUrl())
             );
         }
         [Fact]
